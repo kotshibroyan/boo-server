@@ -26,7 +26,8 @@ class CelebrityService {
     const celebrities = await celebritySchema
       .find({})
       .skip(skip)
-      .limit(pageSize);
+      .limit(pageSize)
+      .exec();
 
     return new CelebrityPageDto(celebrities, page, pageSize);
   }

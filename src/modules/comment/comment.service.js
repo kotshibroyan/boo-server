@@ -13,6 +13,7 @@ class CommentService {
     const celebrity = await celebrityService.getObjectIdWithId(
       createCommentDto.celebrityId,
     );
+
     if (!celebrity) {
       return;
     }
@@ -23,7 +24,6 @@ class CommentService {
     });
 
     await comment.save();
-
     return new CommentDto(comment);
   }
 
