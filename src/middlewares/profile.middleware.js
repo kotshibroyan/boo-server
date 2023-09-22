@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 const createBody = Joi.object({
   name: Joi.string().min(1).required(),
