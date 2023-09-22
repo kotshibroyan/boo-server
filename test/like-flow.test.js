@@ -38,7 +38,7 @@ describe("CommentService", () => {
   afterEach(() => {});
 
   describe("create", () => {
-    it("should create a new celebrity", async () => {
+    it("should create a new celebrity, a new user profile, then with that user should create a comment, after set like to that comment", async () => {
       const createCelebrityDto = {
         name: "Celebrity Name",
         content: "Content for Celebrity",
