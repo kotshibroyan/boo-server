@@ -54,6 +54,10 @@ module.exports = function () {
     async function (req, res) {
       const toggleLikeDto = await toggleLike(req.user, req.params.id);
 
+      if (!toggleLikeDto) {
+        return res.status(400).json({ error: "error.commentNotFound" });
+      }
+
       res.status = 202;
       res.send(toggleLikeDto);
     },

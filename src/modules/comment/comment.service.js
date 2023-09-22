@@ -79,6 +79,10 @@ class CommentService {
       .exec();
     const comment = await commentSchema.findOne({ id: commentId }).exec();
 
+    if (!comment) {
+      return null;
+    }
+
     const toggleLikeDto = new ToggleLikeDto(false);
 
     if (like) {
