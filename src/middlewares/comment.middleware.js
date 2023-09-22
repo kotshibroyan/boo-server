@@ -2,6 +2,8 @@ const Joi = require("joi");
 const ZodiacConstant = require("../constants/zodiac.constant");
 const EnneagramConstant = require("../constants/enneagram.constant");
 const MbtiConstant = require("../constants/mbti.constant");
+const CommentSortConstant = require("../constants/comment-sort.constant");
+
 const ProfileService = require("../modules/profile/profile.service");
 
 const profileService = new ProfileService();
@@ -59,13 +61,19 @@ async function validateUserId(req, res, next) {
 }
 
 async function validatePageOptions(req, res, next) {
-  const schema = Joi.string()
-    .guid({ version: ["uuidv4"] })
-    .optional();
-  const { error } = schema.validate(req.query.celebrityId);
+  const query = Joi.object({
+    celebrityId: Joi.string()
+      .guid({ version: ["uuidv4"] })
+      .optional(),
+    orderBy: Joi.string()
+      .valid(...Object.values(CommentSortConstant))
+      .optional(),
+  });
+
+  const { error } = query.validate(req.query);
 
   if (error) {
-    return res.status(400).json({ error: "error.invalidUuid" });
+    return res.status(400).json({ error: error.details[0].message });
   }
 
   next();

@@ -2,6 +2,7 @@ const CommentDto = require("./dto/comment.dto");
 const commentSchema = require("./comment.schema");
 const CelebrityService = require("../celebrity/celebrity.service");
 const CommentPageDto = require("./dto/comment-page.dto");
+const CommentSortConstant = require("../../constants/comment-sort.constant");
 
 const celebrityService = new CelebrityService();
 
@@ -35,11 +36,23 @@ class CommentService {
   }
 
   async getAll(pageOptionsDto) {
-    const { page, pageSize, celebrityId } = pageOptionsDto;
+    const { page, pageSize, celebrityId, orderBy } = pageOptionsDto;
     const skip = (page - 1) * pageSize;
 
     const query = celebrityId ? { celebrityId } : {};
-    const comments = await commentSchema.find(query).skip(skip).limit(pageSize);
+
+    let orderByQuery = {
+      createdAt: -1,
+    };
+
+    if (orderBy === CommentSortConstant.LIKES_COUNT) {
+      orderByQuery = { likesCount: -1 };
+    }
+    const comments = await commentSchema
+      .find(query)
+      .skip(skip)
+      .limit(pageSize)
+      .sort(orderByQuery);
 
     return new CommentPageDto(comments, page, pageSize);
   }
