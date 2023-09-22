@@ -3,14 +3,18 @@
 const express = require("express");
 const router = express.Router();
 const ProfileController = require("../modules/profile/profile.controller");
-const { validateCreateBody } = require("../middlewares/profile.middleware");
 const CreateProfileDto = require("../modules/profile/dto/create-profile.dto");
+const { validateCreateBody } = require("../middlewares/profile.middleware");
+const validateUuid = require("../middlewares/uuid.middleware");
 
 const { create, getOne } = new ProfileController();
 
 module.exports = function () {
-  router.get("/:id", async function (req, res) {
+  router.get("/:id", validateUuid("id"), async function (req, res) {
     const profile = await getOne(req.params.id);
+    if (!profile) {
+      return res.status(400).json({ error: "error.profileNotFound" });
+    }
     res.render("profile_template", {
       profile,
     });

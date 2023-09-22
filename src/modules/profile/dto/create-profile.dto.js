@@ -9,6 +9,7 @@ class CreateProfileDto {
     this.sloan = body.sloan;
     this.psyche = body.psyche;
     this.image = body.image;
+    this.enneagram = body.enneagram;
   }
 }
 

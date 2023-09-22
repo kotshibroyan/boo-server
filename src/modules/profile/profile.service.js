@@ -15,6 +15,16 @@ class ProfileService {
 
     return new ProfileDto(profile);
   }
+
+  async getObjectIdWithId(id) {
+    const profile = await profileSchema.findOne({ id }).exec();
+
+    if (!profile) {
+      return null;
+    }
+
+    return profile._id;
+  }
 }
 
 module.exports = ProfileService;

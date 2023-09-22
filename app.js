@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const profileRoutes = require("./src/routes/profile");
+const celebrityRoutes = require("./src/routes/celebrity");
+const commentRoutes = require("./src/routes/comment");
 
 // set the view engine to ejs
 app.set("view engine", "ejs");
@@ -12,7 +14,9 @@ app.set("view engine", "ejs");
 app.use(express.json());
 
 // routes
-app.use("/profile", profileRoutes());
+app.use("/profiles", profileRoutes());
+app.use("/celebrities", celebrityRoutes());
+app.use("/comments", commentRoutes());
 
 //connect to mongo tmp server
 mongooseConnect().catch(console.dir);
