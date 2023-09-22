@@ -1,6 +1,6 @@
 const CommentService = require("./comment.service");
 
-const { create, getOne, getAll } = new CommentService();
+const { create, getOne, getAll, toggleLike } = new CommentService();
 
 class CommentController {
   async create(user, createCommentDto) {
@@ -13,6 +13,10 @@ class CommentController {
 
   async getAll(pageOptionsDto) {
     return getAll(pageOptionsDto);
+  }
+
+  async toggleLike(user, commentId) {
+    return toggleLike(user, commentId);
   }
 }
 

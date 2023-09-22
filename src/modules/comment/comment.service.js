@@ -1,8 +1,10 @@
 const CommentDto = require("./dto/comment.dto");
 const commentSchema = require("./comment.schema");
+const likeSchema = require("./like.schema");
 const CelebrityService = require("../celebrity/celebrity.service");
 const CommentPageDto = require("./dto/comment-page.dto");
 const CommentSortConstant = require("../../constants/comment-sort.constant");
+const ToggleLikeDto = require("./dto/toggle-like.dto");
 
 const celebrityService = new CelebrityService();
 
@@ -16,7 +18,7 @@ class CommentService {
     }
     const comment = new commentSchema({
       ...createCommentDto,
-      user,
+      user: user._id,
       celebrity,
     });
 
@@ -69,6 +71,40 @@ class CommentService {
       .sort(orderByQuery);
 
     return new CommentPageDto(comments, page, pageSize);
+  }
+
+  async toggleLike(user, commentId) {
+    const like = await likeSchema
+      .findOne({ userId: user.id, commentId })
+      .exec();
+    const comment = await commentSchema.findOne({ id: commentId }).exec();
+
+    const toggleLikeDto = new ToggleLikeDto(false);
+
+    if (like) {
+      comment.likesCount = comment.likesCount - 1;
+      await Promise.all([
+        likeSchema.deleteOne({ id: like.id }),
+        comment.save(),
+      ]);
+
+      return toggleLikeDto;
+    } else {
+      comment.likesCount = comment.likesCount + 1;
+    }
+
+    const newLike = new likeSchema({
+      user: user._id,
+      userId: user.id,
+      comment: comment._id,
+      commentId,
+    });
+
+    await Promise.all([comment.save(), newLike.save()]);
+
+    toggleLikeDto.isLiked = true;
+
+    return toggleLikeDto;
   }
 }
 

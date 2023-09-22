@@ -6,6 +6,7 @@ class CommentDto {
     this.mbti = commentSchema.mbti;
     this.enneagram = commentSchema.enneagram;
     this.zodiac = commentSchema.zodiac;
+    this.likesCount = commentSchema.likesCount;
   }
 }
 

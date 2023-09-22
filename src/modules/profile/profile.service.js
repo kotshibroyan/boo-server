@@ -13,17 +13,21 @@ class ProfileService {
   async getOne(id) {
     const profile = await profileSchema.findOne({ id }).exec();
 
+    if (!profile) {
+      return null;
+    }
+
     return new ProfileDto(profile);
   }
 
-  async getObjectIdWithId(id) {
+  async getUserDocument(id) {
     const profile = await profileSchema.findOne({ id }).exec();
 
     if (!profile) {
       return null;
     }
 
-    return profile._id;
+    return profile;
   }
 }
 

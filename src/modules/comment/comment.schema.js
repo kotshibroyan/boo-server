@@ -18,6 +18,7 @@ const commentSchema = new mongoose.Schema(
     mbti: { type: String, index: true, required: false },
     enneagram: { type: String, index: true, required: false },
     zodiac: { type: String, index: true, required: false },
+    likesCount: { type: Number, required: true, default: 0 },
   },
   {
     timestamps: true,

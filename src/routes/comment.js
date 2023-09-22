@@ -12,7 +12,7 @@ const {
 } = require("../middlewares/comment.middleware");
 const validateUuid = require("../middlewares/uuid.middleware");
 
-const { create, getOne, getAll } = new CommentController();
+const { create, getOne, getAll, toggleLike } = new CommentController();
 
 module.exports = function () {
   router.get("/", validatePageOptions, async function (req, res) {
@@ -44,6 +44,18 @@ module.exports = function () {
       }
       res.status = 201;
       res.send(commentDto);
+    },
+  );
+
+  router.put(
+    "/:id/toggle-like",
+    validateUuid("id"),
+    validateUserId,
+    async function (req, res) {
+      const toggleLikeDto = await toggleLike(req.user, req.params.id);
+
+      res.status = 202;
+      res.send(toggleLikeDto);
     },
   );
 

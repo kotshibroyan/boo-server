@@ -49,7 +49,7 @@ async function validateUserId(req, res, next) {
     return res.status(400).json({ error: "error.invalidUuid" });
   }
 
-  const user = await profileService.getObjectIdWithId(req.headers["x-user-id"]);
+  const user = await profileService.getUserDocument(req.headers["x-user-id"]);
 
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" });
