@@ -36,10 +36,24 @@ class CommentService {
   }
 
   async getAll(pageOptionsDto) {
-    const { page, pageSize, celebrityId, orderBy } = pageOptionsDto;
+    const { page, pageSize, celebrityId, orderBy, zodiac, enneagram, mbti } =
+      pageOptionsDto;
+
     const skip = (page - 1) * pageSize;
 
-    const query = celebrityId ? { celebrityId } : {};
+    const filter = celebrityId ? { celebrityId } : {};
+
+    if (zodiac) {
+      filter.zodiac = zodiac;
+    }
+
+    if (mbti) {
+      filter.mbti = mbti;
+    }
+
+    if (enneagram) {
+      filter.enneagram = enneagram;
+    }
 
     let orderByQuery = {
       createdAt: -1,
@@ -49,7 +63,7 @@ class CommentService {
       orderByQuery = { likesCount: -1 };
     }
     const comments = await commentSchema
-      .find(query)
+      .find(filter)
       .skip(skip)
       .limit(pageSize)
       .sort(orderByQuery);

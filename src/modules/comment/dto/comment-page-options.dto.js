@@ -4,6 +4,9 @@ class CommentPageOptionsDto {
     this.pageSize = parseInt(query.pageSize) || 10;
     this.celebrityId = query.celebrityId;
     this.orderBy = query.orderBy;
+    this.mbti = query.mbti;
+    this.enneagram = query.enneagram;
+    this.zodiac = query.zodiac;
   }
 }
 

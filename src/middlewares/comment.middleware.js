@@ -68,6 +68,15 @@ async function validatePageOptions(req, res, next) {
     orderBy: Joi.string()
       .valid(...Object.values(CommentSortConstant))
       .optional(),
+    mbti: Joi.string()
+      .valid(...Object.values(MbtiConstant))
+      .optional(),
+    enneagram: Joi.string()
+      .valid(...Object.values(EnneagramConstant))
+      .optional(),
+    zodiac: Joi.string()
+      .valid(...Object.values(ZodiacConstant))
+      .optional(),
   });
 
   const { error } = query.validate(req.query);
