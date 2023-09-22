@@ -4,15 +4,24 @@ const express = require("express");
 const router = express.Router();
 const CommentController = require("../modules/comment/comment.controller");
 const CreateCommentDto = require("../modules/comment/dto/create-comment.dto");
+const CommentPageOptionsDto = require("../modules/comment/dto/comment-page-options.dto");
 const {
   validateCreateBody,
   validateUserId,
+  validatePageOptions,
 } = require("../middlewares/comment.middleware");
 const validateUuid = require("../middlewares/uuid.middleware");
 
-const { create, getOne } = new CommentController();
+const { create, getOne, getAll } = new CommentController();
 
 module.exports = function () {
+  router.get("/", validatePageOptions, async function (req, res) {
+    const pageOptionsDto = new CommentPageOptionsDto(req.query);
+    const celebritiesPage = await getAll(pageOptionsDto);
+    res.status = 200;
+    res.send(celebritiesPage);
+  });
+
   router.get("/:id", validateUuid("id"), async function (req, res) {
     const comment = await getOne(req.params.id);
 

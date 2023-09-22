@@ -58,4 +58,17 @@ async function validateUserId(req, res, next) {
   next();
 }
 
-module.exports = { validateCreateBody, validateUserId };
+async function validatePageOptions(req, res, next) {
+  const schema = Joi.string()
+    .guid({ version: ["uuidv4"] })
+    .optional();
+  const { error } = schema.validate(req.query.celebrityId);
+
+  if (error) {
+    return res.status(400).json({ error: "error.invalidUuid" });
+  }
+
+  next();
+}
+
+module.exports = { validateCreateBody, validateUserId, validatePageOptions };

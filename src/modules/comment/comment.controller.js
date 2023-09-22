@@ -1,6 +1,6 @@
 const CommentService = require("./comment.service");
 
-const { create, getOne } = new CommentService();
+const { create, getOne, getAll } = new CommentService();
 
 class CommentController {
   async create(user, createCommentDto) {
@@ -9,6 +9,10 @@ class CommentController {
 
   async getOne(id) {
     return getOne(id);
+  }
+
+  async getAll(pageOptionsDto) {
+    return getAll(pageOptionsDto);
   }
 }
 

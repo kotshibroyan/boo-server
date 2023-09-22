@@ -1,5 +1,6 @@
 const CelebrityDto = require("./dto/celebrity.dto");
 const celebritySchema = require("./celebrity.schema");
+const CelebrityPageDto = require("./dto/celebrity-page.dto");
 
 class CelebrityService {
   async create(createCelebrityDto) {
@@ -11,9 +12,23 @@ class CelebrityService {
   }
 
   async getOne(id) {
-    const comment = await celebritySchema.findOne({ id }).exec();
+    const celebrity = await celebritySchema.findOne({ id }).exec();
 
-    return new CelebrityDto(comment);
+    if (!celebrity) {
+      return null;
+    }
+    return new CelebrityDto(celebrity);
+  }
+
+  async getAll(pageOptionsDto) {
+    const { page, pageSize } = pageOptionsDto;
+    const skip = (page - 1) * pageSize;
+    const celebrities = await celebritySchema
+      .find({})
+      .skip(skip)
+      .limit(pageSize);
+
+    return new CelebrityPageDto(celebrities, page, pageSize);
   }
 
   async getObjectIdWithId(id) {

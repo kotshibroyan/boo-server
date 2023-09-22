@@ -13,6 +13,7 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "celebrity",
   },
+  celebrityId: { type: String, required: true, index: true },
   mbti: { type: String, index: true, required: false },
   enneagram: { type: String, index: true, required: false },
   zodiac: { type: String, index: true, required: false },

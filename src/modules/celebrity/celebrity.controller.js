@@ -1,6 +1,6 @@
 const celebrityService = require("./celebrity.service");
 
-const { create, getOne } = new celebrityService();
+const { create, getOne, getAll } = new celebrityService();
 
 class celebrityController {
   async create(createCelebrityDto) {
@@ -9,6 +9,10 @@ class celebrityController {
 
   async getOne(id) {
     return getOne(id);
+  }
+
+  async getAll(pageOptionsDto) {
+    return getAll(pageOptionsDto);
   }
 }
 
