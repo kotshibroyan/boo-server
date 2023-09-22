@@ -106,13 +106,6 @@ List the available scripts in your `package.json` file:
 - `start:dev`: Start the development server using `node app.js`.
 - `test`: Run tests using Mocha.
 
-## Getting Started
-
-Provide instructions for getting started with your project, including prerequisites and installation steps.
-
-### Prerequisites
-
-List any software, tools, or dependencies that users need to have installed before they can use your project.
 
 ### Installation
 
